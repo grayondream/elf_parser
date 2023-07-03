@@ -1,5 +1,12 @@
 ﻿#include "Elf64.h"
 
+Elf64::~Elf64(){
+	delete [] _phdr;
+	delete [] _shdr;
+	delete [] _symraw;
+	_symt.clear();
+}
+
 int64_t Elf64::fetchSize(const ElfPart type) {
 	switch (type) {
 	case ElfPart::Header:

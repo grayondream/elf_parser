@@ -4,6 +4,19 @@
 
 constexpr uint64_t kFileBufferMaxSize = 1024 * 1024 * 10;
 
+ElfParser::~ElfParser(){
+	delete [] _ioBuffer;
+	_ioBuffer = nullptr;
+	_cur = 0;
+	_size = 0;
+	_readlen = 0;
+
+	if(_fp){
+		fclose(_fp);
+		_fp = nullptr;
+	}
+}
+
 ElfParser::ElfParser(const std::string_view &file) {
 	_file = file.data();
 }
@@ -126,5 +139,6 @@ Error ElfParser::parse(const ElfPart type) {
 	if (error == Error::FileEOF) return Error::INVALID_OP;
 	if (error != Error::None) return error;
 	_elf->parse(pdata, type);
+	delete [] pdata;
 	return Error::None;
 }

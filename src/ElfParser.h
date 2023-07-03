@@ -12,6 +12,7 @@ using FileLenType = int64_t;
 class ElfBase;
 class ElfParser {	
 public:
+	~ElfParser();
 	ElfParser(const std::string_view &file);
 	Error init();
 	Error parse();

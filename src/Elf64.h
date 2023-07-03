@@ -5,7 +5,7 @@
 
 class Elf64 : public ElfBase{
 public:
-	~Elf64() = default;
+	virtual ~Elf64();
 	Elf64() = default;
 
 public:
