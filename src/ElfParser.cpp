@@ -40,8 +40,17 @@ Error ElfParser::parse() {
 	_elf->setOrder(_order);
 	
 	parse(ElfPart::Header);
-
+	parse(ElfPart::ProgramHeaderTable);
+	parse(ElfPart::SectionHeaderTable);
+	parse(ElfPart::SectionStrTable);
 	return error;
+}
+
+Error ElfParser::seek(const FileLenType sz) {
+	fseek(_fp, sz, SEEK_SET);
+	_size = 0;
+	_cur = 0;
+	return read();
 }
 
 Error ElfParser::read() {
@@ -68,6 +77,8 @@ Error ElfParser::read() {
 
 Error ElfParser::resetio() {
 	fseek(_fp, 0, SEEK_SET);
+	_size = 0;
+	_cur = 0;
 	return Error::None;
 }
 
@@ -108,6 +119,7 @@ Error ElfParser::identity() {
 }
 
 Error ElfParser::parse(const ElfPart type) {
+	seek(_elf->fetchPosition(type));
 	const auto sz = _elf->fetchSize(type);
 	uint8_t *pdata = new uint8_t[sz];
 	const auto error = readbuf(pdata, sz);

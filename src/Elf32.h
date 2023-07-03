@@ -10,6 +10,8 @@ public:
 public:
 	virtual int64_t fetchSize(const ElfPart type) override { return 0; }
 
+	virtual int64_t fetchPosition(const ElfPart type) override { return 0; }
+
 	virtual void parse(unsigned char* ptr, const ElfPart type) override {}
 
 private:

@@ -24,6 +24,7 @@ private:
 private:
 	Error readbuf(void *ptr, const FileLenType sz);
 	Error read();
+	Error seek(const FileLenType sz);
 	FileLenType size() { return _size - _cur; }
 	Error resetio();
 
