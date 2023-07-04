@@ -150,32 +150,6 @@ void Elf64::parseSymStr(unsigned char *ptr) {
 	return;
 }
 
-std::string to_string(const unsigned char ident[EI_NIDENT]) {
-	char buffer[kBufferSize]{};
-	std::string ret{};
-	int left = leftPadding, right = rightPadding;
-	ret += paddingStr("Magic Number:", left, right);
-	for (int i = EI_MAG0; i < EI_NIDENT; i++) {
-		sprintf(buffer, "0x%x ", ident[i]);
-		ret += buffer;
-	}
-
-	ret += "\n";
-	ret += paddingStr("File Identity:", left, right);
-	for (int i = EI_MAG1; i <= EI_MAG3; i++) {
-		sprintf(buffer, "%c", ident[i]);
-		ret += buffer;
-	}
-
-	ret += "\n";
-	ret += paddingStr("Arch Bit:", left, right) + ElfHdrBit[ident[EI_CLASS]] + "\n";
-	ret += paddingStr("Arch Bit Order:", left, right) + ElfHdrOrder[ident[EI_DATA]] + "\n";
-	ret += paddingStr("Version:", left, right) + std::to_string(ident[EI_VERSION]) + "\n";
-	int value = ident[EI_OSABI] % 15;
-	ret += paddingStr("OSAbi:", left, right) + ElfHdrAbi[value] + "\n";
-	return ret;
-}
-
 std::string to_string(const elf64_hdr h) {
 	std::string ret = to_string(h.e_ident);
 	int left = leftPadding, right = rightPadding;

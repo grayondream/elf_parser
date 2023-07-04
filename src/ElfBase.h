@@ -54,7 +54,7 @@ protected:
 };
 
 template<class T>
-T swapEndian(const T v) {
+void swapEndian(T& v) {
 	static_assert(CHAR_BIT == 8, "char_bit is not 8");
 	union{
 		T u;
@@ -65,7 +65,7 @@ T swapEndian(const T v) {
 		dst.u8[i] = src.u8[sizeof(T) - i - 1];
 	}
 
-	return dst.u;
+	v = dst.u;
 }
 
 template<class T>
@@ -94,10 +94,6 @@ constexpr char *ElfSHdrType[20] = { "SHT_NULL", "SHT_PROGBITS", "SHT_SYMTAB", "S
 std::string paddingStr(const std::string &str, const int left = 0, const int right = 10);
 
 //64bit header
-std::string to_string(const elf64_hdr h);
-std::string to_string(const elf64_phdr* h, const int len);
-std::string to_string(const elf64_shdr* h, const int len);
-std::string to_string(const elf64_phdr h);
-std::string to_string(const elf64_shdr h);
+
 
 //32bit
